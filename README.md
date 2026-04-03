@@ -1,2 +1,2 @@
 # lista-vip-inteligencia-semanal
-Meu primeiro repositorio 
+Meu primeiro repositorio Landing page de captura para Inteligência Semanal
