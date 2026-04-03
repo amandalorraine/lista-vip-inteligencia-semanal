@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inteligência Semanal — Lista VIP</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --verde: #0e1a14;
+    --verde2: #1a3a2a;
+    --verde3: #52b788;
+    --ouro: #d4a017;
+    --ouro2: #c9a84c;
+    --creme: #f0ece3;
+    --creme2: #e8e2d8;
+    --texto: #1a1a18;
+    --texto2: #5a5a55;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--verde);
+    color: var(--creme);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* GRAIN TEXTURE */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* HEADER LINE */
+  .top-bar {
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--ouro), transparent);
+  }
+
+  /* NAV */
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    position: relative;
+    z-index: 1;
+  }
+  .nav-marca {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    color: var(--verde3);
+    text-transform: uppercase;
+  }
+  .nav-badge {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    color: var(--ouro);
+    border: 1px solid var(--ouro);
+    padding: 4px 12px;
+    border-radius: 20px;
+    text-transform: uppercase;
+  }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 60px 24px 80px;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .hero-pretitulo {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 4px;
+    color: var(--ouro);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+  .hero-pretitulo::before,
+  .hero-pretitulo::after {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: var(--ouro);
+    opacity: 0.5;
+  }
+
+  .hero-titulo {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 6vw, 58px);
+    font-weight: 400;
+    line-height: 1.15;
+    color: var(--creme);
+    margin-bottom: 16px;
+  }
+  .hero-titulo em {
+    font-style: italic;
+    color: var(--ouro);
+  }
+
+  .hero-sub {
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: rgba(240,236,227,0.7);
+    max-width: 560px;
+    margin: 0 auto 48px;
+  }
+
+  /* FORM */
+  .form-wrapper {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(212,160,23,0.2);
+    border-radius: 12px;
+    padding: 36px 32px;
+    max-width: 480px;
+    margin: 0 auto;
+    backdrop-filter: blur(4px);
+  }
+  .form-titulo {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    color: var(--creme);
+    margin-bottom: 8px;
+  }
+  .form-sub {
+    font-size: 12px;
+    color: rgba(82,183,136,0.8);
+    margin-bottom: 24px;
+    letter-spacing: 0.5px;
+  }
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .form-input {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--creme);
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+  .form-input::placeholder { color: rgba(240,236,227,0.35); }
+  .form-input:focus { border-color: var(--ouro); }
+  .form-btn {
+    background: var(--ouro);
+    color: var(--verde);
+    border: none;
+    border-radius: 8px;
+    padding: 16px 24px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 100%;
+  }
+  .form-btn:hover {
+    background: var(--ouro2);
+    transform: translateY(-1px);
+  }
+  .form-aviso {
+    font-size: 10px;
+    color: rgba(240,236,227,0.3);
+    text-align: center;
+    margin-top: 12px;
+    letter-spacing: 0.5px;
+  }
+
+  /* DIVISOR */
+  .divisor {
+    max-width: 760px;
+    margin: 80px auto 0;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+    z-index: 1;
+  }
+  .divisor-linha { flex: 1; height: 1px; background: rgba(212,160,23,0.2); }
+  .divisor-icon {
+    font-family: 'Playfair Display', serif;
+    font-size: 11px;
+    color: var(--ouro);
+    letter-spacing: 3px;
+    white-space: nowrap;
+    opacity: 0.7;
+  }
+
+  /* O QUE É */
+  .section {
+    position: relative;
+    z-index: 1;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 60px 24px;
+  }
+
+  .section-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 4px;
+    color: var(--verde3);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .section-titulo {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(26px, 4vw, 36px);
+    font-weight: 400;
+    color: var(--creme);
+    line-height: 1.3;
+    margin-bottom: 24px;
+  }
+
+  .section-corpo {
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: rgba(240,236,227,0.7);
+  }
+
+  /* DORES */
+  .dores-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-top: 32px;
+  }
+  .dor-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-left: 3px solid var(--ouro);
+    border-radius: 8px;
+    padding: 20px 18px;
+  }
+  .dor-card p {
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.6;
+    color: rgba(240,236,227,0.65);
+  }
+
+  /* O QUE ENTREGA */
+  .entregas {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 32px;
+  }
+  .entrega-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .entrega-item:last-child { border-bottom: none; }
+  .entrega-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    color: var(--ouro);
+    opacity: 0.4;
+    line-height: 1;
+    min-width: 32px;
+  }
+  .entrega-texto h4 {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--creme);
+    margin-bottom: 4px;
+    letter-spacing: 0.3px;
+  }
+  .entrega-texto p {
+    font-size: 13px;
+    font-weight: 300;
+    color: rgba(240,236,227,0.55);
+    line-height: 1.6;
+  }
+
+  /* PARA QUEM - REFORMULADO COM 6 CATEGORIAS */
+  .perfis {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-top: 32px;
+  }
+  .perfil-card {
+    background: var(--verde2);
+    border: 1px solid rgba(82,183,136,0.15);
+    border-radius: 10px;
+    padding: 24px 20px;
+  }
+  .perfil-icon {
+    font-size: 24px;
+    margin-bottom: 12px;
+  }
+  .perfil-card h4 {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--verde3);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .perfil-card p {
+    font-size: 12px;
+    font-weight: 300;
+    color: rgba(240,236,227,0.55);
+    line-height: 1.6;
+  }
+
+  /* AMANDA */
+  .amanda-box {
+    background: var(--verde2);
+    border: 1px solid rgba(212,160,23,0.15);
+    border-radius: 12px;
+    padding: 36px 32px;
+    display: flex;
+    gap: 28px;
+    align-items: flex-start;
+    margin-top: 0;
+  }
+  .amanda-inicial {
+    width: 56px;
+    height: 56px;
+    background: var(--ouro);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--verde);
+    flex-shrink: 0;
+  }
+  .amanda-texto h4 {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--creme);
+    margin-bottom: 4px;
+  }
+  .amanda-texto .cargo {
+    font-size: 11px;
+    color: var(--verde3);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .amanda-texto p {
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: rgba(240,236,227,0.65);
+  }
+
+  /* CTA FINAL */
+  .cta-final {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 60px 24px 80px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .cta-final h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 400;
+    color: var(--creme);
+    margin-bottom: 16px;
+    line-height: 1.3;
+  }
+  .cta-final h2 em { font-style: italic; color: var(--ouro); }
+  .cta-final p {
+    font-size: 14px;
+    font-weight: 300;
+    color: rgba(240,236,227,0.6);
+    margin-bottom: 36px;
+    line-height: 1.7;
+  }
+  .cta-form-wrapper {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(212,160,23,0.2);
+    border-radius: 12px;
+    padding: 32px;
+    max-width: 440px;
+    margin: 0 auto;
+  }
+
+  /* FOOTER */
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 28px 24px;
+    text-align: center;
+  }
+  footer p {
+    font-size: 11px;
+    color: rgba(240,236,227,0.25);
+    letter-spacing: 0.5px;
+    line-height: 1.7;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-pretitulo { animation: fadeUp 0.6s ease both; }
+  .hero-titulo { animation: fadeUp 0.6s ease 0.1s both; }
+  .hero-sub { animation: fadeUp 0.6s ease 0.2s both; }
+  .form-wrapper { animation: fadeUp 0.6s ease 0.3s both; }
+
+  @media (max-width: 600px) {
+    nav { padding: 16px 20px; }
+    .hero { padding: 40px 20px 60px; }
+    .form-wrapper { padding: 28px 20px; }
+    .amanda-box { flex-direction: column; gap: 16px; }
+    .section { padding: 48px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar"></div>
+
+<nav>
+  <span class="nav-marca">Multtigrãos Corretora</span>
+  <span class="nav-badge">Lista VIP</span>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-pretitulo">Inteligência Semanal — Derivados de Soja</div>
+
+  <h1 class="hero-titulo">
+    Você compra farelo e óleo<br>
+    olhando só para <em>Chicago?</em>
+  </h1>
+
+  <p class="hero-sub">
+    O mercado físico brasileiro tem dinâmica própria. Quem ignora isso paga mais caro, sofre com desabastecimento e toma decisões na emoção. A Inteligência Semanal existe para resolver exatamente isso.
+  </p>
+
+  <div class="form-wrapper">
+    <h3 class="form-titulo">Solicite acesso à lista VIP</h3>
+    <p class="form-sub">VAGAS LIMITADAS · SELEÇÃO MANUAL</p>
+    <div class="form-group">
+      <input type="text" class="form-input" placeholder="Seu nome" />
+      <input type="email" class="form-input" placeholder="Seu melhor e-mail" />
+      <input type="text" class="form-input" placeholder="Empresa / Segmento" />
+      <button class="form-btn">Quero participar →</button>
+    </div>
+    <p class="form-aviso">Sem spam. Você pode sair a qualquer momento.</p>
+  </div>
+</section>
+
+<div class="divisor">
+  <div class="divisor-linha"></div>
+  <span class="divisor-icon">O que é</span>
+  <div class="divisor-linha"></div>
+</div>
+
+<!-- O QUE É -->
+<section class="section">
+  <p class="section-label">O problema que resolvemos</p>
+  <h2 class="section-titulo">O físico não perdoa análise bonita.</h2>
+  <p class="section-corpo">
+    Chicago sobe, mas o físico em GO não se move. O prêmio cai, mas a logística trava a entrega. A tela diz uma coisa. O campo de batalha diz outra. Quem compra farelo e óleo sem entender essa diferença opera no escuro — e paga por isso na margem ou no desabastecimento.
+  </p>
+
+  <div class="dores-grid">
+    <div class="dor-card">
+      <p>"Postergou a compra porque Chicago caiu — e o físico não acompanhou."</p>
+    </div>
+    <div class="dor-card">
+      <p>"Ficou sem produto porque o fornecedor saiu do mercado sem avisar."</p>
+    </div>
+    <div class="dor-card">
+      <p>"Comprou caro porque não sabia que os prêmios haviam recuado naquela semana."</p>
+    </div>
+  </div>
+</section>
+
+<div class="divisor">
+  <div class="divisor-linha"></div>
+  <span class="divisor-icon">O que entrega</span>
+  <div class="divisor-linha"></div>
+</div>
+
+<!-- O QUE ENTREGA -->
+<section class="section">
+  <p class="section-label">Todo relatório inclui</p>
+  <h2 class="section-titulo">Não é call de preço.<br>É mapa de decisão.</h2>
+
+  <div class="entregas">
+    <div class="entrega-item">
+      <span class="entrega-num">01</span>
+      <div class="entrega-texto">
+        <h4>A Tensão Real</h4>
+        <p>A desconexão entre Chicago e o mercado físico brasileiro naquela semana — por que isso muda a sua decisão de compra.</p>
+      </div>
+    </div>
+    <div class="entrega-item">
+      <span class="entrega-num">02</span>
+      <div class="entrega-texto">
+        <h4>Físico BR — o que mudou</h4>
+        <p>Prêmios, logística, disponibilidade e esmagamento por região. O que o relatório de Chicago não te conta.</p>
+      </div>
+    </div>
+    <div class="entrega-item">
+      <span class="entrega-num">03</span>
+      <div class="entrega-texto">
+        <h4>Gatilhos de Ação</h4>
+        <p>SE acontecer X → FAÇA Y. Sem adivinhação. Sem previsão absoluta. Decisões condicionais baseadas em dado real.</p>
+      </div>
+    </div>
+    <div class="entrega-item">
+      <span class="entrega-num">04</span>
+      <div class="entrega-texto">
+        <h4>Mapa de Decisão por Perfil</h4>
+        <p>O que fazer se precisa de produto agora. O que fazer se pode programar. Separado pelo seu momento.</p>
+      </div>
+    </div>
+    <div class="entrega-item">
+      <span class="entrega-num">05</span>
+      <div class="entrega-texto">
+        <h4>Scripts de Negociação</h4>
+        <p>Uma frase para usar com o fornecedor. Uma frase para defender a estratégia internamente. Testáveis numa ligação real.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divisor">
+  <div class="divisor-linha"></div>
+  <span class="divisor-icon">Para quem</span>
+  <div class="divisor-linha"></div>
+</div>
+
+<!-- PARA QUEM - REFORMULADO COM 6 CATEGORIAS GENÉRICAS -->
+<section class="section">
+  <p class="section-label">Setores e públicos que se beneficiam</p>
+  <h2 class="section-titulo">Feito para quem decide compra.</h2>
+
+  <div class="perfis">
+    <div class="perfil-card">
+      <div class="perfil-icon">🥗</div>
+      <h4>Nutrição Animal</h4>
+      <p>Compra farelo e óleo para formulação de ração. Precisa de timing certo para garantir margem e qualidade.</p>
+    </div>
+    <div class="perfil-card">
+      <div class="perfil-icon">🏭</div>
+      <h4>Complexo Soja</h4>
+      <p>Esmagadoras e indústrias de processamento. Precisa entender dinâmica do físico para otimizar operações.</p>
+    </div>
+    <div class="perfil-card">
+      <div class="perfil-icon">🤝</div>
+      <h4>Cooperativas Agrícolas</h4>
+      <p>Intermediários e cooperativas. Precisa de leitura clara do mercado para orientar associados.</p>
+    </div>
+    <div class="perfil-card">
+      <div class="perfil-icon">🍴</div>
+      <h4>Indústrias Alimentícias</h4>
+      <p>Uso de óleo e derivados em produtos. Precisa de previsibilidade e timing para planejamento.</p>
+    </div>
+    <div class="perfil-card">
+      <div class="perfil-icon">📊</div>
+      <h4>Corretores e Traders</h4>
+      <p>Intermediação no mercado físico. Precisa de leitura profunda para orientar clientes com precisão.</p>
+    </div>
+    <div class="perfil-card">
+      <div class="perfil-icon">📚</div>
+      <h4>Qualquer Pessoa que Decida Compra</h4>
+      <p>Aprenda a ler o mercado físico. Entenda a dinâmica que Chicago não mostra.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divisor">
+  <div class="divisor-linha"></div>
+  <span class="divisor-icon">Quem faz</span>
+  <div class="divisor-linha"></div>
+</div>
+
+<!-- AMANDA -->
+<section class="section">
+  <p class="section-label">Por trás da análise</p>
+  <div class="amanda-box">
+    <div class="amanda-inicial">A</div>
+    <div class="amanda-texto">
+      <h4>Amanda Lorraine</h4>
+      <p class="cargo">CEO · Multtigrãos Corretora</p>
+      <p>Corretora de commodities agrícolas com foco em farelo e óleo de soja no mercado físico brasileiro. Há anos orienta compradores industriais sobre timing, prêmios e logística — gratuitamente. A Inteligência Semanal formaliza e aprofunda esse trabalho em um produto semanal, direto e acionável.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<div class="divisor">
+  <div class="divisor-linha"></div>
+  <span class="divisor-icon">Acesso</span>
+  <div class="divisor-linha"></div>
+</div>
+
+<section class="cta-final">
+  <h2>Vagas abertas para<br>a <em>próxima turma.</em></h2>
+  <p>O acesso é gratuito durante o período piloto e selecionado manualmente. Preencha abaixo e entro em contato em até 48h.</p>
+
+  <div class="cta-form-wrapper">
+    <div class="form-group">
+      <input type="text" class="form-input" placeholder="Seu nome" />
+      <input type="email" class="form-input" placeholder="Seu melhor e-mail" />
+      <input type="text" class="form-input" placeholder="Empresa / Segmento" />
+      <button class="form-btn">Solicitar acesso VIP →</button>
+    </div>
+    <p class="form-aviso">Sem spam. Você pode sair a qualquer momento.</p>
+  </div>
+</section>
+
+<footer>
+  <p>
+    Inteligência Semanal para Compradores de Derivados de Soja<br>
+    Amanda Lorraine · Multtigrãos Corretora<br>
+    "Clareza para decidir."
+  </p>
+</footer>
+
+</body>
+</html>
