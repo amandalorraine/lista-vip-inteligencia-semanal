@@ -157,7 +157,18 @@
     flex-direction: column;
     gap: 10px;
   }
-  .form-input {
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  @media (max-width: 600px) {
+    .form-row {
+      grid-template-columns: 1fr;
+    }
+  }
+  .form-input,
+  .form-select {
     background: rgba(255,255,255,0.06);
     border: 1px solid rgba(255,255,255,0.12);
     border-radius: 8px;
@@ -170,7 +181,12 @@
     width: 100%;
   }
   .form-input::placeholder { color: rgba(240,236,227,0.35); }
-  .form-input:focus { border-color: var(--ouro); }
+  .form-input:focus,
+  .form-select:focus { border-color: var(--ouro); }
+  .form-select option {
+    background: var(--verde);
+    color: var(--creme);
+  }
   .form-btn {
     background: var(--ouro);
     color: var(--verde);
@@ -482,16 +498,53 @@
     <p class="form-sub">VAGAS LIMITADAS · SELEÇÃO MANUAL</p>
     <form action="https://multtigraos.us19.list-manage.com/subscribe/post?u=7a8669eb9b03f88e83ffb3380&id=e31386df9c&f_id=00095ce7f0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank">
       <div class="form-group">
-        <input type="text" name="FNAME" class="form-input" placeholder="Seu nome" required />
+        <div class="form-row">
+          <input type="text" name="FNAME" class="form-input" placeholder="Seu nome" required />
+          <input type="text" name="LNAME" class="form-input" placeholder="Sobrenome" required />
+        </div>
         <input type="email" name="EMAIL" class="form-input" placeholder="Seu melhor e-mail" required />
-        <input type="text" name="LNAME" class="form-input" placeholder="Sobrenome" />
         <input type="text" name="COMPANY" class="form-input" placeholder="Sua empresa" />
         <input type="text" name="MERGE12" class="form-input" placeholder="Seu cargo" />
-        <input type="tel" name="PHONE" class="form-input" placeholder="Seu telefone (11) 99999-9999" />
+        <select name="MERGE13" class="form-select" required>
+          <option value="">Qual produto voce acompanha?</option>
+          <option value="Farelo de Soja">Farelo de Soja</option>
+          <option value="Oleo de Soja">Oleo de Soja</option>
+          <option value="Complexo Soja">Complexo Soja (Farelo + Oleo)</option>
+          <option value="Acompanho o mercado">Acompanho o mercado</option>
+        </select>
+        <select name="MERGE14" class="form-select" required>
+          <option value="">Qual seu segmento?</option>
+          <option value="Nutricao Animal">Nutricao Animal</option>
+          <option value="Biocombustivel">Biocombustivel</option>
+          <option value="Industria Alimenticia">Industria Alimenticia</option>
+          <option value="Corretora/Trader">Corretora/Trader</option>
+          <option value="Cooperativa">Cooperativa</option>
+          <option value="Industria Quimica">Industria Quimica</option>
+          <option value="Outro">Outro</option>
+        </select>
+        <input type="tel" name="PHONE" id="phone-input" class="form-input" placeholder="Seu telefone (11) 99999-9999" />
         <input type="hidden" name="tags" value="24301321" />
         <button type="submit" class="form-btn">Quero participar →</button>
       </div>
     </form>
+    <script>
+      const phoneInput = document.getElementById('phone-input');
+      if (phoneInput) {
+        phoneInput.addEventListener('input', function(e) {
+          let value = e.target.value.replace(/\D/g, '');
+          if (value.length > 0) {
+            if (value.length <= 2) {
+              value = value;
+            } else if (value.length <= 7) {
+              value = '(' + value.slice(0, 2) + ') ' + value.slice(2);
+            } else {
+              value = '(' + value.slice(0, 2) + ') ' + value.slice(2, 7) + '-' + value.slice(7, 11);
+            }
+          }
+          e.target.value = value;
+        });
+      }
+    </script>
     <p class="form-aviso">Sem spam. Você pode sair a qualquer momento.</p>
   </div>
 </section>
